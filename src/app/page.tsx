@@ -11,7 +11,24 @@ async function getProductData(): Promise<Product | null> {
     if (!res.ok) {
       return null;
     }
-    return res.json();
+    const product = await res.json();
+    const firstItem = product.items?.[0];
+    const imageUrl = firstItem?.images?.[0]?.imageUrl;
+
+    return {
+      id: product.productId,
+      sku: firstItem?.itemId,
+      title: product.productName,
+      brand: product.brand,
+      image: imageUrl,
+      images: firstItem?.images.map((img: any) => img.imageUrl) || [],
+      price: firstItem?.sellers?.[0]?.commertialOffer?.Price,
+      fullPrice: firstItem?.sellers?.[0]?.commertialOffer?.ListPrice,
+      color: firstItem?.Color?.[0],
+      sizes: product.items?.map((item: any) => item.Talla[0]) || [],
+      details: product.description,
+      stock: firstItem?.sellers?.[0]?.commertialOffer?.AvailableQuantity,
+    };
   } catch (error) {
     console.error('Failed to fetch product:', error);
     return null;
@@ -27,7 +44,24 @@ async function getRelatedProducts(): Promise<Product[]> {
       return [];
     }
     const data = await res.json();
-    return data.products || [];
+    return (data.products || []).map((product: any) => {
+      const firstItem = product.items?.[0];
+      const imageUrl = firstItem?.images?.[0]?.imageUrl;
+      return {
+        id: product.productId,
+        sku: firstItem?.itemId,
+        title: product.productName,
+        brand: product.brand,
+        image: imageUrl,
+        images: firstItem?.images.map((img: any) => img.imageUrl) || [],
+        price: firstItem?.sellers?.[0]?.commertialOffer?.Price,
+        fullPrice: firstItem?.sellers?.[0]?.commertialOffer?.ListPrice,
+        color: firstItem?.Color?.[0],
+        sizes: product.items?.map((item: any) => item.Talla[0]) || [],
+        details: product.description,
+        stock: firstItem?.sellers?.[0]?.commertialOffer?.AvailableQuantity,
+      };
+    });
   } catch (error) {
     console.error('Failed to fetch related products:', error);
     return [];

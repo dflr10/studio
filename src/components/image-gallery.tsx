@@ -29,8 +29,10 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
     }
 
     const handleSelect = () => {
-      setCurrent(api.selectedScrollSnap());
-      mainApi.scrollTo(api.selectedScrollSnap());
+      if (api.selectedScrollSnap() < images.length) {
+        setCurrent(api.selectedScrollSnap());
+        mainApi.scrollTo(api.selectedScrollSnap());
+      }
     };
 
     api.on("select", handleSelect);
@@ -38,7 +40,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
     return () => {
       api.off("select", handleSelect);
     };
-  }, [api, mainApi]);
+  }, [api, mainApi, images.length]);
 
 
   const handleThumbClick = (index: number) => {

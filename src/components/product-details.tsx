@@ -69,7 +69,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           onValueChange={setSelectedSize}
           className="mt-2 flex flex-wrap gap-2"
         >
-          {Array.isArray(product.sizes) && product.sizes.map((size) => (
+          {Array.isArray(product.sizes) &&
+            product.sizes.filter(Boolean).map((size) => (
             <Label
               key={size}
               htmlFor={`size-${size}`}
