@@ -11,7 +11,14 @@ async function getProductData(): Promise<Product | null> {
     if (!res.ok) {
       return null;
     }
-    const product = await res.json();
+    const data = await res.json();
+    // The endpoint returns an array, so we take the first element
+    const product = Array.isArray(data) ? data[0] : data;
+
+    if (!product || !product.items || product.items.length === 0) {
+      return null;
+    }
+
     const firstItem = product.items?.[0];
     const imageUrl = firstItem?.images?.[0]?.imageUrl;
 
@@ -25,7 +32,7 @@ async function getProductData(): Promise<Product | null> {
       price: firstItem?.sellers?.[0]?.commertialOffer?.Price,
       fullPrice: firstItem?.sellers?.[0]?.commertialOffer?.ListPrice,
       color: firstItem?.Color?.[0],
-      sizes: product.items?.map((item: any) => item.Talla[0]) || [],
+      sizes: product.items?.map((item: any) => item.Talla?.[0]).filter(Boolean) || [],
       details: product.description,
       stock: firstItem?.sellers?.[0]?.commertialOffer?.AvailableQuantity,
     };
@@ -44,7 +51,7 @@ async function getRelatedProducts(): Promise<Product[]> {
       return [];
     }
     const data = await res.json();
-    return (data.products || []).map((product: any) => {
+    return (data || []).map((product: any) => {
       const firstItem = product.items?.[0];
       const imageUrl = firstItem?.images?.[0]?.imageUrl;
       return {
@@ -57,7 +64,7 @@ async function getRelatedProducts(): Promise<Product[]> {
         price: firstItem?.sellers?.[0]?.commertialOffer?.Price,
         fullPrice: firstItem?.sellers?.[0]?.commertialOffer?.ListPrice,
         color: firstItem?.Color?.[0],
-        sizes: product.items?.map((item: any) => item.Talla[0]) || [],
+        sizes: product.items?.map((item: any) => item.Talla?.[0]).filter(Boolean) || [],
         details: product.description,
         stock: firstItem?.sellers?.[0]?.commertialOffer?.AvailableQuantity,
       };
