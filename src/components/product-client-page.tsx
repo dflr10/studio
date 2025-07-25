@@ -21,12 +21,14 @@ export default function ProductClientPage({
 
   useEffect(() => {
     // Add current product to viewing history on mount
-    setViewingHistory((prev) => {
-      const newHistory = [product.id.toString(), ...prev];
-      // Keep history to a reasonable size, e.g., last 10 viewed items
-      return [...new Set(newHistory)].slice(0, 10);
-    });
-  }, [product.id]);
+    if (product?.id) {
+      setViewingHistory((prev) => {
+        const newHistory = [product.id.toString(), ...prev];
+        // Keep history to a reasonable size, e.g., last 10 viewed items
+        return [...new Set(newHistory)].slice(0, 10);
+      });
+    }
+  }, [product?.id]);
 
   return (
     <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
