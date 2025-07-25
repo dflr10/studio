@@ -1,0 +1,100 @@
+"use client";
+
+import React from 'react';
+import Image from 'next/image';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetFooter,
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useCart } from '@/hooks/use-cart';
+import { Trash2 } from 'lucide-react';
+import { Separator } from './ui/separator';
+
+export default function ShoppingCart() {
+  const {
+    cartItems,
+    isCartOpen,
+    setIsCartOpen,
+    removeFromCart,
+    totalPrice,
+  } = useCart();
+
+  const formatPrice = (price: number) =>
+    new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(price);
+
+  return (
+    <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
+      <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
+        <SheetHeader className="px-6">
+          <SheetTitle>Shopping Cart</SheetTitle>
+        </SheetHeader>
+        <Separator />
+        {cartItems.length > 0 ? (
+          <>
+            <ScrollArea className="flex-1">
+              <div className="flex flex-col gap-6 p-6">
+                {cartItems.map((item) => (
+                  <div key={`${item.sku}-${item.selectedSize}`} className="flex items-center space-x-4">
+                    <div className="relative h-24 w-24 overflow-hidden rounded-md">
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover"
+                        data-ai-hint="product image"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col gap-1">
+                      <span className="font-semibold">{item.title}</span>
+                      <span className="text-sm text-muted-foreground">
+                        Size: {item.selectedSize}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {item.quantity} x {formatPrice(item.price)}
+                      </span>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeFromCart(item.sku, item.selectedSize)}
+                      aria-label={`Remove ${item.title}`}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+            <SheetFooter className="bg-secondary p-6">
+              <div className="flex w-full flex-col gap-4">
+                <div className="flex justify-between font-semibold">
+                  <span>Subtotal</span>
+                  <span>{formatPrice(totalPrice)}</span>
+                </div>
+                <Button className="w-full">Checkout</Button>
+              </div>
+            </SheetFooter>
+          </>
+        ) : (
+          <div className="flex flex-1 items-center justify-center p-6">
+            <div className="text-center">
+              <h3 className="text-lg font-medium">Your cart is empty</h3>
+              <p className="text-sm text-muted-foreground">
+                Add some products to get started.
+              </p>
+            </div>
+          </div>
+        )}
+      </SheetContent>
+    </Sheet>
+  );
+}
