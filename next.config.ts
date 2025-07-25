@@ -12,13 +12,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'placehold.co',
+        hostname: 'cuerosvelezco.vteximg.com.br',
         port: '',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'cuerosvelezco.vteximg.com.br',
+        hostname: 'placehold.co',
         port: '',
         pathname: '/**',
       },
