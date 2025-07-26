@@ -30,7 +30,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
-    if (selectedSize) {
+    if (product && selectedSize) {
       addToCart(product, selectedSize);
     }
   };
@@ -54,7 +54,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         <span className="text-3xl font-bold text-primary">
           {formatPrice(product.price)}
         </span>
-        {product.fullPrice > product.price && (
+        {product.fullPrice && product.fullPrice > product.price && (
           <span className="text-xl text-gray-500 line-through">
             {formatPrice(product.fullPrice)}
           </span>
@@ -91,11 +91,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             <Label
               key={size}
               htmlFor={`size-${size}`}
-              className={`flex cursor-pointer items-center justify-center rounded-md border p-3 px-4 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
+              className={cn(`flex cursor-pointer items-center justify-center rounded-md border p-3 px-4 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground`,
                 selectedSize === size
                   ? 'border-primary bg-primary text-primary-foreground'
                   : 'bg-card'
-              }`}
+              )}
             >
               <RadioGroupItem value={size} id={`size-${size}`} className="sr-only" />
               {size}
@@ -121,4 +121,3 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     </div>
   );
 }
-
