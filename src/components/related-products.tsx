@@ -39,15 +39,14 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
             <CarouselItem key={product.id} className="pl-4 md:basis-1/2 lg:basis-1/4">
               <Card className="group overflow-hidden rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 transform">
                 <CardContent className="p-0">
-                  <div className="relative aspect-square">
+                  <div className="relative h-64 w-full">
                     <Image
                       src={product.image}
                       alt={product.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
+                      className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
                       data-ai-hint="product fashion"
-                      style={{ marginTop: '-10px' }}
                     />
                   </div>
                   <div className="p-4">
