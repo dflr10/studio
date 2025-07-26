@@ -104,7 +104,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       </div>
 
       <div>
-        <h3 className="text-sm font-medium">Seleccionar Talla</h3>
+        <h3 className="text-sm font-medium">Tallas Disponibles</h3>
         <RadioGroup
           value={selectedSize ?? ''}
           onValueChange={setSelectedSize}
