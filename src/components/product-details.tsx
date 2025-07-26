@@ -40,6 +40,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       style: 'currency',
       currency: 'USD',
     }).format(price);
+  
+  const hasDiscount = product.fullPrice && product.fullPrice > product.price;
 
   return (
     <div className="flex flex-col space-y-6">
@@ -54,7 +56,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         <span className="text-3xl font-bold text-primary">
           {formatPrice(product.price)}
         </span>
-        {product.fullPrice && product.fullPrice > product.price && (
+        {hasDiscount && (
           <span className="text-xl text-gray-500 line-through">
             {formatPrice(product.fullPrice)}
           </span>
