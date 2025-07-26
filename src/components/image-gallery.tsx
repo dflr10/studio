@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -19,32 +20,27 @@ interface ImageGalleryProps {
 }
 
 export default function ImageGallery({ images, title }: ImageGalleryProps) {
-  const [api, setApi] = useState<CarouselApi>();
   const [mainApi, setMainApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    if (!api || !mainApi) {
+    if (!mainApi) {
       return;
     }
 
     const handleSelect = () => {
-      if (api.selectedScrollSnap() < images.length) {
-        setCurrent(api.selectedScrollSnap());
-        mainApi.scrollTo(api.selectedScrollSnap());
-      }
+      setCurrent(mainApi.selectedScrollSnap());
     };
 
-    api.on("select", handleSelect);
+    mainApi.on("select", handleSelect);
 
     return () => {
-      api.off("select", handleSelect);
+      mainApi.off("select", handleSelect);
     };
-  }, [api, mainApi, images.length]);
+  }, [mainApi]);
 
 
   const handleThumbClick = (index: number) => {
-    api?.scrollTo(index);
     mainApi?.scrollTo(index);
     setCurrent(index);
   }
@@ -95,32 +91,29 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
          <CarouselNext className="right-4" />
       </Carousel>
 
-      <Carousel setApi={setApi} opts={{ align: 'start', slidesToScroll: 1, dragFree: true }} className="w-full">
-        <CarouselContent className="-ml-2">
+      <div className="grid grid-cols-5 gap-2">
           {images.map((img, index) => (
-            <CarouselItem key={index} className="basis-1/4 pl-2 md:basis-1/5">
-                <Card 
-                    className={cn(
-                        'overflow-hidden rounded-md cursor-pointer transition-all',
-                        current === index ? 'ring-2 ring-primary ring-offset-2' : 'ring-1 ring-transparent'
-                    )}
-                    onClick={() => handleThumbClick(index)}
-                >
-                    <CardContent className="relative aspect-square p-0">
-                    <Image
-                        src={img}
-                        alt={`Thumbnail for ${title} ${index + 1}`}
-                        fill
-                        sizes="(max-width: 768px) 25vw, 10vw"
-                        className="object-contain"
-                        data-ai-hint="product apparel"
-                    />
-                    </CardContent>
-              </Card>
-            </CarouselItem>
+              <Card 
+                  key={index}
+                  className={cn(
+                      'overflow-hidden rounded-md cursor-pointer transition-all',
+                      current === index ? 'ring-2 ring-primary ring-offset-2' : 'ring-1 ring-transparent'
+                  )}
+                  onClick={() => handleThumbClick(index)}
+              >
+                  <CardContent className="relative aspect-square p-0">
+                  <Image
+                      src={img}
+                      alt={`Thumbnail for ${title} ${index + 1}`}
+                      fill
+                      sizes="(max-width: 768px) 20vw, 10vw"
+                      className="object-contain"
+                      data-ai-hint="product apparel"
+                  />
+                  </CardContent>
+            </Card>
           ))}
-        </CarouselContent>
-      </Carousel>
+      </div>
     </div>
   );
 }
