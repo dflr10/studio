@@ -32,9 +32,13 @@ export default function ProductClientPage({
 
   return (
     <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-        <ImageGallery images={product.images} title={product.title} />
-        <ProductDetails product={product} />
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-5">
+        <div className="lg:col-span-2">
+          <ImageGallery images={product.images} title={product.title} />
+        </div>
+        <div className="lg:col-span-3">
+          <ProductDetails product={product} />
+        </div>
       </div>
       <Separator className="my-12" />
       <RelatedProducts products={relatedProducts} />
