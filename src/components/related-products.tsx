@@ -24,6 +24,13 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(price);
+  
+  const truncateTitle = (title: string) => {
+    if (title.length > 29) {
+      return title.substring(0, 26) + '...';
+    }
+    return title;
+  };
 
   return (
     <section>
@@ -44,7 +51,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
                       translateZ="50"
                       className="text-xl font-bold text-neutral-600 dark:text-white"
                     >
-                      {product.title}
+                      {truncateTitle(product.title)}
                     </CardItem>
                     <CardItem
                       as="p"
