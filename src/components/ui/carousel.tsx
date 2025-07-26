@@ -162,7 +162,7 @@ const CarouselContent = React.forwardRef<
         ref={ref}
         className={cn(
           "flex",
-          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
+          orientation === "horizontal" ? "relative" : "-mt-4 flex-col",
           className
         )}
         {...props}
@@ -176,16 +176,41 @@ const CarouselItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
-  const { orientation } = useCarousel()
+  const { orientation, api } = useCarousel()
+  const [isActive, setIsActive] = React.useState(false);
+
+  React.useEffect(() => {
+    if (api) {
+      const onSelect = () => {
+        // Find the index of the current ref in the slides array
+        const slides = api.slideNodes();
+        const refIndex = slides.findIndex(slide => slide === ref.current);
+        setIsActive(api.selectedScrollSnap() === refIndex);
+      };
+      
+      api.on("select", onSelect);
+      api.on("reInit", onSelect);
+      // Set initial state
+      onSelect();
+      
+      return () => {
+        api.off("select", onSelect);
+        api.off("reInit", onSelect);
+      };
+    }
+  }, [api, ref]);
 
   return (
     <div
       ref={ref}
       role="group"
       aria-roledescription="slide"
+      data-active={isActive ? 'true' : undefined}
       className={cn(
-        "min-w-0 shrink-0 grow-0 basis-full transition-opacity duration-700",
-        orientation === "horizontal" ? "pl-4" : "pt-4",
+        "min-w-0 shrink-0 grow-0 basis-full",
+        orientation === "horizontal" ? "pl-0" : "pt-4",
+        "transition-opacity duration-700",
+        "absolute top-0 left-0 w-full h-full",
         className
       )}
       {...props}

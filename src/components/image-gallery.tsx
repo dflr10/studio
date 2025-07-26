@@ -85,7 +85,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
       >
         <CarouselContent>
           {images.map((img, index) => (
-            <CarouselItem key={index} className="transition-opacity duration-1000 ease-in-out">
+            <CarouselItem key={index} className="opacity-0 transition-opacity duration-1000 ease-in-out data-[active]:opacity-100">
               <Card className="overflow-hidden rounded-lg shadow-lg border">
                 <CardContent className="relative aspect-square p-0">
                   <Image
