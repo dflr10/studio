@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Autoplay from "embla-carousel-autoplay"
 import {
   Carousel,
   CarouselContent,
@@ -21,6 +22,10 @@ interface ImageGalleryProps {
 export default function ImageGallery({ images, title }: ImageGalleryProps) {
   const [mainApi, setMainApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+
+  const plugin = useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: true })
+  )
 
   useEffect(() => {
     if (!mainApi) {
@@ -67,7 +72,13 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <Carousel setApi={setMainApi} className="w-full">
+      <Carousel 
+        plugins={[plugin.current]}
+        setApi={setMainApi} 
+        className="w-full"
+        onMouseEnter={plugin.current.stop}
+        onMouseLeave={plugin.current.reset}
+      >
         <CarouselContent>
           {images.map((img, index) => (
             <CarouselItem key={index}>
