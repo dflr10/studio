@@ -102,7 +102,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                     alt={`${title} - imagen ${index + 1}`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+                    className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
                     priority={index === 0}
                     data-ai-hint="product apparel"
                   />
