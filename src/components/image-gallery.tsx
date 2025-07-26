@@ -88,14 +88,14 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
         plugins={[plugin.current]}
         opts={{ loop: true }}
         setApi={setMainApi} 
-        className="w-full embla-fade"
+        className="w-full"
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >
         <CarouselContent>
           {images.map((img, index) => (
             <CarouselItem key={index}>
-              <Card className="group overflow-hidden rounded-lg shadow-lg border-0 h-full w-full bg-transparent">
+              <Card className="group overflow-hidden rounded-lg shadow-lg h-full w-full bg-card">
                 <CardContent className="relative aspect-square p-0 h-full w-full">
                   <Image
                     src={img}
