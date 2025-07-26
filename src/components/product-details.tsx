@@ -9,6 +9,12 @@ import { Label } from '@/components/ui/label';
 import { ShoppingCart } from 'lucide-react';
 import { useCart } from '@/hooks/use-cart';
 import { cn } from '@/lib/utils';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 interface ProductDetailsProps {
   product: Product;
@@ -48,10 +54,10 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   return (
     <div className="flex flex-col space-y-6">
       <div>
+        <p className="text-sm text-muted-foreground">{product.brand}</p>
         <h1 className="font-headline text-3xl font-bold tracking-tight md:text-4xl">
           {product.title}
         </h1>
-        <p className="text-xl text-muted-foreground">{product.brand}</p>
       </div>
 
       <div className="flex items-baseline space-x-2">
@@ -77,13 +83,13 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
       <div>
         <h3 className="text-sm font-medium">Color: <span className="font-normal">{selectedColor}</span></h3>
-        <div className="mt-2 flex flex-wrap gap-2">
+        <div className="mt-2 flex flex-wrap gap-3">
           {product.availableColors?.map((color) => (
             <button
               key={color}
               type="button"
               className={cn(
-                'h-8 w-8 rounded-full border-2 transition-transform transform hover:scale-110',
+                'h-10 w-10 rounded-full border-2 transition-transform transform hover:scale-110',
                 selectedColor === color ? 'ring-2 ring-primary ring-offset-2 border-primary' : 'border-gray-300',
                 color === 'Blanco' && 'border-gray-400'
               )}
@@ -111,7 +117,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               htmlFor={`size-${size}`}
               className={cn(`flex cursor-pointer items-center justify-center rounded-md border p-3 px-4 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground`,
                 selectedSize === size
-                  ? 'border-primary bg-primary text-primary-foreground'
+                  ? 'border-primary bg-primary text-primary-foreground shadow-md'
                   : 'bg-card'
               )}
             >
@@ -126,16 +132,23 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         size="lg"
         onClick={handleAddToCart}
         disabled={!selectedSize}
-        className="w-full shadow-lg"
+        className="w-full shadow-lg transform hover:scale-105 transition-transform"
       >
         <ShoppingCart className="mr-2 h-5 w-5" />
         {selectedSize ? 'Añadir al carrito' : 'Selecciona una talla'}
       </Button>
       
-      <div className="prose prose-sm max-w-none text-muted-foreground">
-        <h3 className="font-medium text-foreground">Detalles del Producto</h3>
-        <div dangerouslySetInnerHTML={{ __html: product.details }}></div>
-      </div>
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="item-1">
+          <AccordionTrigger>Detalles del Producto</AccordionTrigger>
+          <AccordionContent>
+            <div 
+              className="prose prose-sm max-w-none text-muted-foreground"
+              dangerouslySetInnerHTML={{ __html: product.details }}
+            ></div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 }

@@ -37,7 +37,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
         <CarouselContent className="-ml-4">
           {products.map((product) => (
             <CarouselItem key={product.id} className="pl-4 md:basis-1/2 lg:basis-1/4">
-              <Card className="overflow-hidden rounded-lg shadow-sm transition-shadow hover:shadow-xl">
+              <Card className="overflow-hidden rounded-lg shadow-sm transition-shadow hover:shadow-xl hover:-translate-y-1 transform">
                 <CardContent className="p-0">
                   <div className="relative aspect-square">
                     <Image

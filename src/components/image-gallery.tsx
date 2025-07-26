@@ -70,7 +70,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
         <CarouselContent>
           {images.map((img, index) => (
             <CarouselItem key={index}>
-              <Card className="overflow-hidden rounded-lg shadow-lg">
+              <Card className="overflow-hidden rounded-lg shadow-lg border">
                 <CardContent className="relative aspect-square p-0">
                   <Image
                     src={img}
