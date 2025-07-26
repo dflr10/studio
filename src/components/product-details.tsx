@@ -115,7 +115,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             <Label
               key={size}
               htmlFor={`size-${size}`}
-              className={cn(`flex cursor-pointer items-center justify-center rounded-md border p-3 px-4 text-sm font-medium transition-all duration-200 ease-in-out hover:bg-accent hover:text-accent-foreground hover:shadow-md`,
+              className={cn(
+                'flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border p-3 text-sm font-medium transition-all duration-200 ease-in-out',
+                'shadow-sm hover:shadow-xl hover:-translate-y-1',
                 selectedSize === size
                   ? 'border-primary bg-primary text-primary-foreground shadow-lg scale-105'
                   : 'bg-card text-card-foreground'
