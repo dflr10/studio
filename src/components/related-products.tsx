@@ -38,32 +38,34 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
           {products.map((product) => (
             <CarouselItem key={product.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
               <CardContainer>
-                <CardBody className="group/card relative h-auto w-auto rounded-xl border border-black/[0.1] p-6 hover:shadow-2xl dark:border-white/[0.2] dark:bg-black dark:hover:shadow-emerald-500/[0.1]">
-                  <CardItem
-                    translateZ="50"
-                    className="text-xl font-bold text-neutral-600 dark:text-white"
-                  >
-                    {product.title}
-                  </CardItem>
-                  <CardItem
-                    as="p"
-                    translateZ="60"
-                    className="mt-2 max-w-sm text-sm text-neutral-500 dark:text-neutral-300"
-                  >
-                    {product.brand}
-                  </CardItem>
-                  <CardItem translateZ="100" className="mt-4 w-full">
-                    <div className="relative aspect-square h-60 w-full">
-                      <Image
-                        src={product.image}
-                        alt={product.title}
-                        fill
-                        className="rounded-xl object-contain group-hover/card:shadow-xl"
-                        data-ai-hint="product fashion"
-                      />
-                    </div>
-                  </CardItem>
-                  <div className="mt-20 flex items-center justify-between">
+                <CardBody className="group/card relative flex h-full w-auto flex-col justify-between rounded-xl border border-black/[0.1] p-6 hover:shadow-2xl dark:border-white/[0.2] dark:bg-black dark:hover:shadow-emerald-500/[0.1]">
+                  <div>
+                    <CardItem
+                      translateZ="50"
+                      className="text-xl font-bold text-neutral-600 dark:text-white"
+                    >
+                      {product.title}
+                    </CardItem>
+                    <CardItem
+                      as="p"
+                      translateZ="60"
+                      className="mt-2 max-w-sm text-sm text-neutral-500 dark:text-neutral-300"
+                    >
+                      {product.brand}
+                    </CardItem>
+                    <CardItem translateZ="100" className="mt-4 w-full">
+                      <div className="relative aspect-square h-60 w-full">
+                        <Image
+                          src={product.image}
+                          alt={product.title}
+                          fill
+                          className="rounded-xl object-contain group-hover/card:shadow-xl"
+                          data-ai-hint="product fashion"
+                        />
+                      </div>
+                    </CardItem>
+                  </div>
+                  <div className="mt-8 flex items-center justify-between">
                     <CardItem
                       translateZ={20}
                       as="p"
