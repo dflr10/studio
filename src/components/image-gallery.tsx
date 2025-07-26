@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/carousel';
 import { Card, CardContent } from './ui/card';
 import { cn } from '@/lib/utils';
+import { CardBody, CardContainer, CardItem } from './ui/3d-card';
 
 interface ImageGalleryProps {
   images: string[];
@@ -95,19 +96,23 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
         <CarouselContent>
           {images.map((img, index) => (
             <CarouselItem key={index}>
-              <Card className="group overflow-hidden rounded-lg shadow-lg h-full w-full bg-card">
-                <CardContent className="relative aspect-square p-0 h-full w-full">
-                  <Image
-                    src={img}
-                    alt={`${title} - imagen ${index + 1}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
-                    priority={index === 0}
-                    data-ai-hint="product apparel"
-                  />
-                </CardContent>
-              </Card>
+               <CardContainer className="w-full" containerClassName="py-0 pb-4">
+                 <CardBody className="group/card relative flex h-full w-full flex-col justify-between rounded-xl border border-black/[0.1] bg-white p-8 hover:shadow-2xl dark:border-white/[0.2] dark:bg-black dark:hover:shadow-emerald-500/[0.1]">
+                    <CardItem translateZ="100" className="mt-4 w-full">
+                       <div className="relative aspect-square h-full w-full rounded-xl bg-white">
+                        <Image
+                          src={img}
+                          alt={`${title} - imagen ${index + 1}`}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="rounded-xl object-contain group-hover/card:shadow-xl"
+                          priority={index === 0}
+                          data-ai-hint="product apparel"
+                        />
+                      </div>
+                    </CardItem>
+                  </CardBody>
+                </CardContainer>
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -115,7 +120,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
          <CarouselNext className="right-4" />
       </Carousel>
 
-      <div className="grid grid-cols-5 gap-2">
+      <div className="grid grid-cols-6 gap-2">
           {images.map((img, index) => (
               <Card 
                   key={index}
