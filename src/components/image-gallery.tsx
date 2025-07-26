@@ -48,6 +48,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
     };
     
     mainApi.on("select", handleSelect);
+    // Initial setup
     handleSelect(mainApi);
 
     return () => {
