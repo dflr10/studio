@@ -47,7 +47,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-contain"
                       data-ai-hint="product fashion"
-                      style={{ marginTop: '-5px' }}
+                      style={{ marginTop: '-10px' }}
                     />
                   </div>
                   <div className="p-4">

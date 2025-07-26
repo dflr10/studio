@@ -57,7 +57,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
               className="object-contain"
               priority
               data-ai-hint="placeholder"
-              style={{ marginTop: '-5px' }}
+              style={{ marginTop: '-10px' }}
             />
           </CardContent>
         </Card>
@@ -81,7 +81,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                     className="object-contain transition-transform duration-300 ease-in-out hover:scale-105"
                     priority={index === 0}
                     data-ai-hint="product apparel"
-                    style={{ marginTop: '-5px' }}
+                    style={{ marginTop: '-10px' }}
                   />
                 </CardContent>
               </Card>
@@ -110,7 +110,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                       sizes="(max-width: 768px) 20vw, 10vw"
                       className="object-contain"
                       data-ai-hint="product apparel"
-                      style={{ marginTop: '-5px' }}
+                      style={{ marginTop: '-10px' }}
                   />
                   </CardContent>
             </Card>
