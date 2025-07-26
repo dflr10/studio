@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart as ShoppingCartIcon, Zap } from 'lucide-react';
+import { ShoppingCart as ShoppingCartIcon, Brush } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/hooks/use-cart';
@@ -21,7 +21,7 @@ export default function Header() {
         <div className="container flex h-16 items-center">
           <div className="mr-4 flex">
             <a href="/" className="flex items-center space-x-2">
-              <Zap className="h-6 w-6 text-primary" />
+              <Brush className="h-6 w-6 text-primary" />
               <span className="font-bold">Inocencia</span>
             </a>
           </div>
