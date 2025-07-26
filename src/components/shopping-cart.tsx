@@ -10,7 +10,7 @@ import {
   SheetFooter,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea } from './ui/scroll-area';
 import { useCart } from '@/hooks/use-cart';
 import { Trash2 } from 'lucide-react';
 import { Separator } from './ui/separator';
@@ -58,6 +58,9 @@ export default function ShoppingCart() {
                     </div>
                     <div className="flex flex-1 flex-col gap-1">
                       <span className="font-semibold">{item.title}</span>
+                      <span className="text-sm text-muted-foreground">
+                        Color: {item.color}
+                      </span>
                       <span className="text-sm text-muted-foreground">
                         Talla: {item.selectedSize}
                       </span>
