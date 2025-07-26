@@ -162,7 +162,7 @@ const CarouselContent = React.forwardRef<
         ref={ref}
         className={cn(
           "flex",
-          orientation === "horizontal" ? "relative" : "-mt-4 flex-col",
+          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
           className
         )}
         {...props}
@@ -175,52 +175,18 @@ CarouselContent.displayName = "CarouselContent"
 const CarouselItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->((props, ref) => {
-  const { orientation, api } = useCarousel()
-  const [isActive, setIsActive] = React.useState(false);
-  const localRef = React.useRef<HTMLDivElement>(null);
-
-  React.useImperativeHandle(ref, () => localRef.current as HTMLDivElement);
-
-  React.useEffect(() => {
-    if (api) {
-      const onSelect = () => {
-        if (localRef.current) {
-          const slides = api.slideNodes();
-          const refIndex = slides.findIndex(slide => slide === localRef.current);
-          setIsActive(api.selectedScrollSnap() === refIndex);
-        }
-      };
-      
-      api.on("select", onSelect);
-      api.on("reInit", onSelect);
-      
-      // Set initial state
-      if (api.slidesInView().includes(0) && localRef.current && api.slideNodes().indexOf(localRef.current) === 0) {
-        setIsActive(true);
-      } else {
-        onSelect();
-      }
-      
-      return () => {
-        api.off("select", onSelect);
-        api.off("reInit", onSelect);
-      };
-    }
-  }, [api]);
+>(({ className, ...props }, ref) => {
+  const { orientation } = useCarousel()
 
   return (
     <div
-      ref={localRef}
+      ref={ref}
       role="group"
       aria-roledescription="slide"
-      data-active={isActive ? 'true' : undefined}
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
-        orientation === "horizontal" ? "pl-0" : "pt-4",
-        "transition-opacity duration-1000",
-        "absolute top-0 left-0 w-full h-full",
-        props.className
+        orientation === "horizontal" ? "pl-4" : "pt-4",
+        className
       )}
       {...props}
     />

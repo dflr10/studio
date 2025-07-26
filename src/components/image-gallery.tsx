@@ -65,7 +65,6 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
               className="object-contain"
               priority
               data-ai-hint="placeholder"
-              style={{ marginTop: '-10px' }}
             />
           </CardContent>
         </Card>
@@ -83,9 +82,9 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >
-        <CarouselContent className="relative aspect-square">
+        <CarouselContent>
           {images.map((img, index) => (
-            <CarouselItem key={index} className="opacity-0 data-[active]:opacity-100">
+            <CarouselItem key={index}>
               <Card className="overflow-hidden rounded-lg shadow-lg border h-full w-full">
                 <CardContent className="relative aspect-square p-0 h-full w-full">
                   <Image
@@ -96,7 +95,6 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                     className="object-contain transition-transform duration-300 ease-in-out hover:scale-105"
                     priority={index === 0}
                     data-ai-hint="product apparel"
-                    style={{ marginTop: '-10px' }}
                   />
                 </CardContent>
               </Card>
@@ -125,7 +123,6 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                       sizes="(max-width: 768px) 20vw, 10vw"
                       className="object-contain"
                       data-ai-hint="product apparel"
-                      style={{ marginTop: '-10px' }}
                   />
                   </CardContent>
             </Card>
