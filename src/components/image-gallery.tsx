@@ -32,11 +32,20 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
       return;
     }
 
-    const handleSelect = () => {
-      setCurrent(mainApi.selectedScrollSnap());
+    const handleSelect = (api: CarouselApi) => {
+      setCurrent(api.selectedScrollSnap());
+      // Add is-active class to the current slide
+      api.slides.forEach((slide, index) => {
+        if (index === api.selectedScrollSnap()) {
+          slide.classList.add('is-active');
+        } else {
+          slide.classList.remove('is-active');
+        }
+      });
     };
-
+    
     mainApi.on("select", handleSelect);
+    handleSelect(mainApi); // Set initial active slide
 
     return () => {
       mainApi.off("select", handleSelect);
@@ -74,6 +83,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
     <div className="flex flex-col gap-4">
       <Carousel 
         plugins={[plugin.current]}
+        opts={{ loop: true }}
         setApi={setMainApi} 
         className="w-full"
         onMouseEnter={plugin.current.stop}

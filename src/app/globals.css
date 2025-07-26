@@ -87,4 +87,10 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  .embla__slide {
+    opacity: 0;
+  }
+  .embla__slide.is-active {
+    opacity: 1;
+  }
 }
