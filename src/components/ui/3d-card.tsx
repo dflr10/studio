@@ -8,13 +8,6 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-import {
-  useMotionValue,
-  useMotionValueEvent,
-  useSpring,
-  useTransform,
-  motion,
-} from "framer-motion";
 
 const MouseEnterContext = createContext<
   [boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined
@@ -111,6 +104,7 @@ export const CardItem = ({
   rotateX = 0,
   rotateY = 0,
   rotateZ = 0,
+  asChild,
   ...rest
 }: {
   as?: React.ElementType;
@@ -122,6 +116,7 @@ export const CardItem = ({
   rotateX?: number | string;
   rotateY?: number | string;
   rotateZ?: number | string;
+  asChild?: boolean;
   [key: string]: any;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -140,14 +135,16 @@ export const CardItem = ({
     }
   };
 
+  const Comp = asChild && typeof children !== 'string' ? React.Children.only(children).type : Tag;
+
   return (
-    <Tag
+     <Comp
       ref={ref}
       className={cn("w-fit transition duration-200 ease-linear", className)}
       {...rest}
     >
       {children}
-    </Tag>
+    </Comp>
   );
 };
 
