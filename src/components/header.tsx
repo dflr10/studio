@@ -31,7 +31,7 @@ export default function Header() {
               size="icon"
               className="relative"
               onClick={() => setIsCartOpen(true)}
-              aria-label="Open shopping cart"
+              aria-label="Abrir carrito de compras"
             >
               <ShoppingCartIcon className="h-5 w-5" />
               {isMounted && cartCount > 0 && (

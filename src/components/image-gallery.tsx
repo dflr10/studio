@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -52,7 +51,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
           <CardContent className="relative aspect-square p-0">
             <Image
               src="https://placehold.co/600x600.png"
-              alt="Placeholder image"
+              alt="Imagen de marcador de posición"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-contain"
@@ -75,7 +74,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                 <CardContent className="relative aspect-square p-0">
                   <Image
                     src={img}
-                    alt={`${title} - image ${index + 1}`}
+                    alt={`${title} - imagen ${index + 1}`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-contain transition-transform duration-300 ease-in-out hover:scale-105"
@@ -104,7 +103,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                   <CardContent className="relative aspect-square p-0">
                   <Image
                       src={img}
-                      alt={`Thumbnail for ${title} ${index + 1}`}
+                      alt={`Miniatura de ${title} ${index + 1}`}
                       fill
                       sizes="(max-width: 768px) 20vw, 10vw"
                       className="object-contain"

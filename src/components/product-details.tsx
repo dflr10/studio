@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -37,9 +36,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   };
 
   const formatPrice = (price: number) =>
-    new Intl.NumberFormat('en-US', {
+    new Intl.NumberFormat('es-CO', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'COP',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(price);
   
   const hasDiscount = product.fullPrice && product.fullPrice > product.price;
@@ -90,14 +91,14 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 background: colorMap[color] || color.toLowerCase(),
               }}
               onClick={() => setSelectedColor(color)}
-              aria-label={`Select color ${color}`}
+              aria-label={`Seleccionar color ${color}`}
             />
           ))}
         </div>
       </div>
 
       <div>
-        <h3 className="text-sm font-medium">Select Size</h3>
+        <h3 className="text-sm font-medium">Seleccionar Talla</h3>
         <RadioGroup
           value={selectedSize ?? ''}
           onValueChange={setSelectedSize}
@@ -128,11 +129,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         className="w-full shadow-lg"
       >
         <ShoppingCart className="mr-2 h-5 w-5" />
-        {selectedSize ? 'Add to Cart' : 'Select a size'}
+        {selectedSize ? 'Añadir al carrito' : 'Selecciona una talla'}
       </Button>
       
       <div className="prose prose-sm max-w-none text-muted-foreground">
-        <h3 className="font-medium text-foreground">Product Details</h3>
+        <h3 className="font-medium text-foreground">Detalles del Producto</h3>
         <div dangerouslySetInnerHTML={{ __html: product.details }}></div>
       </div>
     </div>

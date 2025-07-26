@@ -25,16 +25,18 @@ export default function ShoppingCart() {
   } = useCart();
 
   const formatPrice = (price: number) =>
-    new Intl.NumberFormat('en-US', {
+    new Intl.NumberFormat('es-CO', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'COP',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(price);
 
   return (
     <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
       <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
         <SheetHeader className="px-6">
-          <SheetTitle>Shopping Cart</SheetTitle>
+          <SheetTitle>Carrito de Compras</SheetTitle>
         </SheetHeader>
         <Separator />
         {cartItems.length > 0 ? (
@@ -56,7 +58,7 @@ export default function ShoppingCart() {
                     <div className="flex flex-1 flex-col gap-1">
                       <span className="font-semibold">{item.title}</span>
                       <span className="text-sm text-muted-foreground">
-                        Size: {item.selectedSize}
+                        Talla: {item.selectedSize}
                       </span>
                       <span className="text-sm text-muted-foreground">
                         {item.quantity} x {formatPrice(item.price)}
@@ -66,7 +68,7 @@ export default function ShoppingCart() {
                       variant="ghost"
                       size="icon"
                       onClick={() => removeFromCart(item.sku, item.selectedSize)}
-                      aria-label={`Remove ${item.title}`}
+                      aria-label={`Eliminar ${item.title}`}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -80,16 +82,16 @@ export default function ShoppingCart() {
                   <span>Subtotal</span>
                   <span>{formatPrice(totalPrice)}</span>
                 </div>
-                <Button className="w-full">Checkout</Button>
+                <Button className="w-full">Finalizar Compra</Button>
               </div>
             </SheetFooter>
           </>
         ) : (
           <div className="flex flex-1 items-center justify-center p-6">
             <div className="text-center">
-              <h3 className="text-lg font-medium">Your cart is empty</h3>
+              <h3 className="text-lg font-medium">Tu carrito está vacío</h3>
               <p className="text-sm text-muted-foreground">
-                Add some products to get started.
+                Añade algunos productos para empezar.
               </p>
             </div>
           </div>

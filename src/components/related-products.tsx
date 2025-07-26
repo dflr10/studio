@@ -18,15 +18,17 @@ interface RelatedProductsProps {
 
 export default function RelatedProducts({ products }: RelatedProductsProps) {
   const formatPrice = (price: number) =>
-    new Intl.NumberFormat('en-US', {
+    new Intl.NumberFormat('es-CO', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'COP',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(price);
 
   return (
     <section>
       <h2 className="font-headline text-2xl font-bold tracking-tight md:text-3xl">
-        You Might Also Like
+        También te podría gustar
       </h2>
       <Carousel
         opts={{ align: 'start', loop: true }}

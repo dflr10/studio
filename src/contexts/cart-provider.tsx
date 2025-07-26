@@ -66,8 +66,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         }
       });
       toast({
-        title: "Added to cart",
-        description: `${product.title} has been added to your cart.`,
+        title: "Añadido al carrito",
+        description: `${product.title} ha sido añadido a tu carrito.`,
       });
     },
     [toast]
@@ -80,8 +80,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       )
     );
      toast({
-        title: "Item removed",
-        description: `The item has been removed from your cart.`,
+        title: "Artículo eliminado",
+        description: `El artículo ha sido eliminado de tu carrito.`,
         variant: "destructive"
       });
   }, [toast]);

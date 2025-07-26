@@ -91,9 +91,9 @@ export default async function Home() {
       <div className="container mx-auto p-4">
         <Alert variant="destructive">
           <Terminal className="h-4 w-4" />
-          <AlertTitle>Error Fetching Product</AlertTitle>
+          <AlertTitle>Error al Cargar el Producto</AlertTitle>
           <AlertDescription>
-            We couldn't load the product information. Please try again later.
+            No pudimos cargar la información del producto. Por favor, inténtalo de nuevo más tarde.
           </AlertDescription>
         </Alert>
       </div>
