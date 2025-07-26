@@ -194,8 +194,13 @@ const CarouselItem = React.forwardRef<
       
       api.on("select", onSelect);
       api.on("reInit", onSelect);
+      
       // Set initial state
-      onSelect();
+      if (api.slidesInView().includes(0) && localRef.current && api.slideNodes().indexOf(localRef.current) === 0) {
+        setIsActive(true);
+      } else {
+        onSelect();
+      }
       
       return () => {
         api.off("select", onSelect);
@@ -213,7 +218,7 @@ const CarouselItem = React.forwardRef<
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-0" : "pt-4",
-        "transition-opacity duration-700",
+        "transition-opacity duration-1000",
         "absolute top-0 left-0 w-full h-full",
         props.className
       )}

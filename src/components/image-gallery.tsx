@@ -83,11 +83,11 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >
-        <CarouselContent>
+        <CarouselContent className="relative aspect-square">
           {images.map((img, index) => (
-            <CarouselItem key={index} className="opacity-0 transition-opacity duration-1000 ease-in-out data-[active]:opacity-100">
-              <Card className="overflow-hidden rounded-lg shadow-lg border">
-                <CardContent className="relative aspect-square p-0">
+            <CarouselItem key={index} className="opacity-0 data-[active]:opacity-100">
+              <Card className="overflow-hidden rounded-lg shadow-lg border h-full w-full">
+                <CardContent className="relative aspect-square p-0 h-full w-full">
                   <Image
                     src={img}
                     alt={`${title} - imagen ${index + 1}`}
