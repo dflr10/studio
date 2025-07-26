@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -8,10 +9,21 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { ShoppingCart } from 'lucide-react';
 import { useCart } from '@/hooks/use-cart';
+import { cn } from '@/lib/utils';
 
 interface ProductDetailsProps {
   product: Product;
 }
+
+const colorMap: { [key: string]: string } = {
+  Negro: 'black',
+  'Verde Limon': 'limegreen',
+  Blanco: 'white',
+  Miel: '#E6B422',
+  Multicolor: 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)',
+  Mora: '#781F1F',
+  Crema: '#F5F5DC',
+};
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -54,8 +66,13 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         {product.color && (
           <div className="flex items-center space-x-2">
             <span
-              className="h-6 w-6 rounded-full border"
-              style={{ backgroundColor: product.color.toLowerCase() }}
+              className={cn(
+                'h-6 w-6 rounded-full border',
+                product.color === 'Blanco' && 'border-gray-400'
+              )}
+              style={{
+                background: colorMap[product.color] || product.color.toLowerCase(),
+              }}
             ></span>
             <span>{product.color}</span>
           </div>
@@ -104,3 +121,4 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     </div>
   );
 }
+
