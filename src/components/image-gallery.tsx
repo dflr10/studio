@@ -97,8 +97,8 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
               <Card 
                   key={index}
                   className={cn(
-                      'overflow-hidden rounded-md cursor-pointer transition-all',
-                      current === index ? 'ring-2 ring-primary ring-offset-2' : 'ring-1 ring-transparent'
+                      'overflow-hidden rounded-md cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-105',
+                      current === index ? 'ring-2 ring-primary ring-offset-2' : 'ring-1 ring-transparent hover:ring-primary/50'
                   )}
                   onClick={() => handleThumbClick(index)}
               >

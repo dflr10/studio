@@ -89,7 +89,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               key={color}
               type="button"
               className={cn(
-                'h-10 w-10 rounded-full border-2 transition-transform transform hover:scale-110',
+                'h-10 w-10 rounded-full border-2 transition-all duration-200 ease-in-out transform hover:scale-110',
                 selectedColor === color ? 'ring-2 ring-primary ring-offset-2 border-primary' : 'border-gray-300',
                 color === 'Blanco' && 'border-gray-400'
               )}
