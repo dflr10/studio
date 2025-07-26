@@ -33,20 +33,11 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
     }
 
     const handleSelect = (api: CarouselApi) => {
-      if (!api?.slides) return;
       setCurrent(api.selectedScrollSnap());
-      // Add is-active class to the current slide
-      api.slides.forEach((slide, index) => {
-        if (index === api.selectedScrollSnap()) {
-          slide.classList.add('is-active');
-        } else {
-          slide.classList.remove('is-active');
-        }
-      });
     };
     
     mainApi.on("select", handleSelect);
-    handleSelect(mainApi); // Set initial active slide
+    handleSelect(mainApi);
 
     return () => {
       mainApi.off("select", handleSelect);
@@ -92,7 +83,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
       >
         <CarouselContent>
           {images.map((img, index) => (
-            <CarouselItem key={index}>
+            <CarouselItem key={index} className={cn(current === index ? 'opacity-100' : 'opacity-0')}>
               <Card className="overflow-hidden rounded-lg shadow-lg border">
                 <CardContent className="relative aspect-square p-0">
                   <Image
