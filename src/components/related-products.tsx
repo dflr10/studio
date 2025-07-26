@@ -38,7 +38,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
           {products.map((product) => (
             <CarouselItem key={product.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
               <CardContainer>
-                <CardBody className="group/card relative flex h-full w-auto flex-col justify-between rounded-xl border border-black/[0.1] p-6 hover:shadow-2xl dark:border-white/[0.2] dark:bg-black dark:hover:shadow-emerald-500/[0.1]">
+                <CardBody className="group/card relative flex h-[28rem] w-auto flex-col justify-between rounded-xl border border-black/[0.1] p-6 hover:shadow-2xl dark:border-white/[0.2] dark:bg-black dark:hover:shadow-emerald-500/[0.1]">
                   <div>
                     <CardItem
                       translateZ="50"
