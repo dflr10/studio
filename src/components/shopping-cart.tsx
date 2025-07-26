@@ -45,7 +45,7 @@ export default function ShoppingCart() {
               <div className="flex flex-col gap-6 p-6">
                 {cartItems.map((item) => (
                   <div key={`${item.sku}-${item.selectedSize}`} className="flex items-center space-x-4">
-                    <div className="relative h-24 w-24 overflow-hidden rounded-md">
+                    <div className="relative h-28 w-28 overflow-hidden rounded-md">
                       <Image
                         src={item.image}
                         alt={item.title}
@@ -53,7 +53,6 @@ export default function ShoppingCart() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-contain"
                         data-ai-hint="product image"
-                        style={{ marginTop: '-10px' }}
                       />
                     </div>
                     <div className="flex flex-1 flex-col gap-1">
