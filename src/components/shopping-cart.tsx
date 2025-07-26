@@ -72,6 +72,8 @@ export default function ShoppingCart() {
                       size="icon"
                       onClick={() => removeFromCart(item.sku, item.selectedSize)}
                       aria-label={`Eliminar ${item.title}`}
+                      className="hover:bg-destructive hover:text-destructive-foreground"
+
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
