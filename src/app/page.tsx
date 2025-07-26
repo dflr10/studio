@@ -22,6 +22,8 @@ async function getProductData(): Promise<Product | null> {
     const firstItem = product.items?.[0];
     const imageUrl = firstItem?.images?.[0]?.imageUrl;
 
+    const availableColors = Array.from(new Set(product.items.map((item: any) => item.Color?.[0]).filter(Boolean)));
+
     return {
       id: product.productId,
       sku: firstItem?.itemId,
@@ -32,6 +34,7 @@ async function getProductData(): Promise<Product | null> {
       price: firstItem?.sellers?.[0]?.commertialOffer?.Price,
       fullPrice: firstItem?.sellers?.[0]?.commertialOffer?.ListPrice,
       color: firstItem?.Color?.[0],
+      availableColors: availableColors,
       sizes: product.items?.map((item: any) => item.Talla?.[0]).filter(Boolean) || [],
       details: product.description,
       stock: firstItem?.sellers?.[0]?.commertialOffer?.AvailableQuantity,
@@ -54,6 +57,7 @@ async function getRelatedProducts(): Promise<Product[]> {
     return (data || []).map((product: any) => {
       const firstItem = product.items?.[0];
       const imageUrl = firstItem?.images?.[0]?.imageUrl;
+      const availableColors = Array.from(new Set(product.items.map((item: any) => item.Color?.[0]).filter(Boolean)));
       return {
         id: product.productId,
         sku: firstItem?.itemId,
@@ -64,6 +68,7 @@ async function getRelatedProducts(): Promise<Product[]> {
         price: firstItem?.sellers?.[0]?.commertialOffer?.Price,
         fullPrice: firstItem?.sellers?.[0]?.commertialOffer?.ListPrice,
         color: firstItem?.Color?.[0],
+        availableColors: availableColors,
         sizes: product.items?.map((item: any) => item.Talla?.[0]).filter(Boolean) || [],
         details: product.description,
         stock: firstItem?.sellers?.[0]?.commertialOffer?.AvailableQuantity,

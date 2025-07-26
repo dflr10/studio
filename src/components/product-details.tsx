@@ -27,6 +27,7 @@ const colorMap: { [key: string]: string } = {
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string>(product.color);
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -65,20 +66,28 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
       <div className="flex items-center space-x-4">
         <Badge variant="outline">SKU: {product.sku}</Badge>
-        {product.color && (
-          <div className="flex items-center space-x-2">
-            <span
+      </div>
+
+      <div>
+        <h3 className="text-sm font-medium">Color: <span className="font-normal">{selectedColor}</span></h3>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {product.availableColors?.map((color) => (
+            <button
+              key={color}
+              type="button"
               className={cn(
-                'h-6 w-6 rounded-full border',
-                product.color === 'Blanco' && 'border-gray-400'
+                'h-8 w-8 rounded-full border-2 transition-transform transform hover:scale-110',
+                selectedColor === color ? 'ring-2 ring-primary ring-offset-2 border-primary' : 'border-gray-300',
+                color === 'Blanco' && 'border-gray-400'
               )}
               style={{
-                background: colorMap[product.color] || product.color.toLowerCase(),
+                background: colorMap[color] || color.toLowerCase(),
               }}
-            ></span>
-            <span>{product.color}</span>
-          </div>
-        )}
+              onClick={() => setSelectedColor(color)}
+              aria-label={`Select color ${color}`}
+            />
+          ))}
+        </div>
       </div>
 
       <div>
