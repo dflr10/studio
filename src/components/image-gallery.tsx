@@ -95,7 +95,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
         <CarouselContent>
           {images.map((img, index) => (
             <CarouselItem key={index}>
-              <Card className="overflow-hidden rounded-lg shadow-lg border h-full w-full bg-transparent">
+              <Card className="overflow-hidden rounded-lg shadow-lg border-0 h-full w-full bg-transparent">
                 <CardContent className="relative aspect-square p-0 h-full w-full">
                   <Image
                     src={img}
