@@ -24,7 +24,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
   const [current, setCurrent] = useState(0);
 
   const plugin = useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: true })
+    Autoplay({ delay: 4000, stopOnInteraction: true })
   )
 
   useEffect(() => {
@@ -33,7 +33,9 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
     }
 
     const handleSelect = (api: CarouselApi) => {
-      setCurrent(api.selectedScrollSnap());
+      if (api) {
+        setCurrent(api.selectedScrollSnap());
+      }
     };
     
     mainApi.on("select", handleSelect);
@@ -83,7 +85,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
       >
         <CarouselContent>
           {images.map((img, index) => (
-            <CarouselItem key={index} className={cn(current === index ? 'opacity-100' : 'opacity-0')}>
+            <CarouselItem key={index} className="transition-opacity duration-500 ease-in-out">
               <Card className="overflow-hidden rounded-lg shadow-lg border">
                 <CardContent className="relative aspect-square p-0">
                   <Image
