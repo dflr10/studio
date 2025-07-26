@@ -59,7 +59,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
               alt="Placeholder image"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover"
+              className="object-contain"
               priority
               data-ai-hint="placeholder"
             />
@@ -82,7 +82,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                     alt={`${title} - image ${index + 1}`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+                    className="object-contain transition-transform duration-300 ease-in-out hover:scale-105"
                     priority={index === 0}
                     data-ai-hint="product apparel"
                   />
@@ -112,7 +112,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                         alt={`Thumbnail for ${title} ${index + 1}`}
                         fill
                         sizes="(max-width: 768px) 25vw, 10vw"
-                        className="object-cover"
+                        className="object-contain"
                         data-ai-hint="product apparel"
                     />
                     </CardContent>
