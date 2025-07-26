@@ -7,7 +7,7 @@ import Footer from '@/components/footer';
 
 export const metadata: Metadata = {
   title: 'Inocencia',
-  description: 'Encuentra tu próxima pieza elegante.',
+  description: 'Más que tu estilo, tu esencia.',
 };
 
 export default function RootLayout({
