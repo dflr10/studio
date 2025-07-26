@@ -53,6 +53,7 @@ export default function ShoppingCart() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-contain"
                         data-ai-hint="product image"
+                        style={{ marginTop: '-5px' }}
                       />
                     </div>
                     <div className="flex flex-1 flex-col gap-1">
