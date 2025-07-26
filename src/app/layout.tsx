@@ -3,9 +3,10 @@ import './globals.css';
 import { CartProvider } from '@/contexts/cart-provider';
 import Header from '@/components/header';
 import { Toaster } from '@/components/ui/toaster';
+import Footer from '@/components/footer';
 
 export const metadata: Metadata = {
-  title: 'E-legant Finds',
+  title: 'Inocencia',
   description: 'Find your next elegant piece.',
 };
 
@@ -26,8 +27,11 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <CartProvider>
-          <Header />
-          <main>{children}</main>
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </div>
           <Toaster />
         </CartProvider>
       </body>
