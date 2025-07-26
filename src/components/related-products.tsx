@@ -61,7 +61,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
                       {product.brand}
                     </CardItem>
                     <CardItem translateZ="100" className="mt-4 w-full">
-                      <div className="relative aspect-square h-60 w-full">
+                      <div className="relative aspect-square h-60 w-full rounded-xl bg-white">
                         <Image
                           src={product.image}
                           alt={product.title}
