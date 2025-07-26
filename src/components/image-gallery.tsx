@@ -95,14 +95,14 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
         <CarouselContent>
           {images.map((img, index) => (
             <CarouselItem key={index}>
-              <Card className="overflow-hidden rounded-lg shadow-lg border-0 h-full w-full bg-transparent">
+              <Card className="group overflow-hidden rounded-lg shadow-lg border-0 h-full w-full bg-transparent">
                 <CardContent className="relative aspect-square p-0 h-full w-full">
                   <Image
                     src={img}
                     alt={`${title} - imagen ${index + 1}`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-contain"
+                    className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
                     priority={index === 0}
                     data-ai-hint="product apparel"
                   />
