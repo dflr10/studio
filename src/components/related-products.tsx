@@ -27,7 +27,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
   
   const truncateTitle = (title: string) => {
     if (title.length > 29) {
-      return title.substring(0, 26) + '...';
+      return title.substring(0, 27) + '...';
     }
     return title;
   };
