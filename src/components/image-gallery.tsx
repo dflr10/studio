@@ -33,6 +33,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
     }
 
     const handleSelect = (api: CarouselApi) => {
+      if (!api?.slides) return;
       setCurrent(api.selectedScrollSnap());
       // Add is-active class to the current slide
       api.slides.forEach((slide, index) => {
