@@ -9,38 +9,42 @@ async function getProductData(): Promise<Product | null> {
       'https://api-frontend-production.up.railway.app/api/products/125829257'
     );
     if (!res.ok) {
+      console.error(`Failed to fetch product: ${res.status} ${res.statusText}`);
       return null;
     }
     const data = await res.json();
-    // The endpoint returns an array, so we take the first element
     const product = Array.isArray(data) ? data[0] : data;
 
-    if (!product || !product.items || product.items.length === 0) {
+    if (!product || !product.productId || !product.items || product.items.length === 0) {
+      console.error('Invalid product data received:', product);
       return null;
     }
 
     const firstItem = product.items?.[0];
-    const imageUrl = firstItem?.images?.[0]?.imageUrl;
+    if (!firstItem) return null;
+
+    const imageUrl = firstItem.images?.[0]?.imageUrl;
 
     const availableColors = Array.from(new Set(product.items.map((item: any) => item.Color?.[0]).filter(Boolean)));
+    const sizes = Array.from(new Set(product.items.map((item: any) => item.Talla?.[0]).filter(Boolean)));
 
     return {
       id: product.productId,
-      sku: firstItem?.itemId,
-      title: product.productName,
-      brand: product.brand,
-      image: imageUrl,
-      images: firstItem?.images.map((img: any) => img.imageUrl) || [],
-      price: firstItem?.sellers?.[0]?.commertialOffer?.Price,
-      fullPrice: firstItem?.sellers?.[0]?.commertialOffer?.ListPrice,
-      color: firstItem?.Color?.[0],
-      availableColors: availableColors,
-      sizes: product.items?.map((item: any) => item.Talla?.[0]).filter(Boolean) || [],
-      details: product.description,
-      stock: firstItem?.sellers?.[0]?.commertialOffer?.AvailableQuantity,
+      sku: firstItem.itemId || '',
+      title: product.productName || 'Sin título',
+      brand: product.brand || 'Marca Desconocida',
+      image: imageUrl || "https://placehold.co/600x600.png",
+      images: firstItem.images?.map((img: any) => img.imageUrl).filter(Boolean) || [],
+      price: firstItem.sellers?.[0]?.commertialOffer?.Price || 0,
+      fullPrice: firstItem.sellers?.[0]?.commertialOffer?.ListPrice || 0,
+      color: firstItem.Color?.[0] || 'No especificado',
+      availableColors,
+      sizes,
+      details: product.description || '<p>No hay detalles disponibles.</p>',
+      stock: firstItem.sellers?.[0]?.commertialOffer?.AvailableQuantity || 0,
     };
   } catch (error) {
-    console.error('Failed to fetch product:', error);
+    console.error('An error occurred while fetching product data:', error);
     return null;
   }
 }
@@ -51,31 +55,43 @@ async function getRelatedProducts(): Promise<Product[]> {
       'https://api-frontend-production.up.railway.app/api/products?ft=tenis'
     );
     if (!res.ok) {
+       console.error(`Failed to fetch related products: ${res.status} ${res.statusText}`);
       return [];
     }
     const data = await res.json();
+    if (!Array.isArray(data)) {
+      console.error('Related products data is not an array:', data);
+      return [];
+    }
+
     return (data || []).map((product: any) => {
+      if (!product || !product.productId) return null;
+
       const firstItem = product.items?.[0];
-      const imageUrl = firstItem?.images?.[0]?.imageUrl;
+      if (!firstItem) return null;
+
+      const imageUrl = firstItem.images?.[0]?.imageUrl;
       const availableColors = Array.from(new Set(product.items.map((item: any) => item.Color?.[0]).filter(Boolean)));
+      const sizes = Array.from(new Set(product.items.map((item: any) => item.Talla?.[0]).filter(Boolean)));
+      
       return {
         id: product.productId,
-        sku: firstItem?.itemId,
-        title: product.productName,
-        brand: product.brand,
-        image: imageUrl,
-        images: firstItem?.images.map((img: any) => img.imageUrl) || [],
-        price: firstItem?.sellers?.[0]?.commertialOffer?.Price,
-        fullPrice: firstItem?.sellers?.[0]?.commertialOffer?.ListPrice,
-        color: firstItem?.Color?.[0],
-        availableColors: availableColors,
-        sizes: product.items?.map((item: any) => item.Talla?.[0]).filter(Boolean) || [],
-        details: product.description,
-        stock: firstItem?.sellers?.[0]?.commertialOffer?.AvailableQuantity,
+        sku: firstItem.itemId || '',
+        title: product.productName || 'Sin título',
+        brand: product.brand || 'Marca Desconocida',
+        image: imageUrl || "https://placehold.co/400x400.png",
+        images: firstItem.images?.map((img: any) => img.imageUrl).filter(Boolean) || [],
+        price: firstItem.sellers?.[0]?.commertialOffer?.Price || 0,
+        fullPrice: firstItem.sellers?.[0]?.commertialOffer?.ListPrice || 0,
+        color: firstItem.Color?.[0] || 'No especificado',
+        availableColors,
+        sizes,
+        details: product.description || '<p>No hay detalles disponibles.</p>',
+        stock: firstItem.sellers?.[0]?.commertialOffer?.AvailableQuantity || 0,
       };
-    });
+    }).filter((p): p is Product => p !== null);
   } catch (error) {
-    console.error('Failed to fetch related products:', error);
+    console.error('An error occurred while fetching related products:', error);
     return [];
   }
 }
