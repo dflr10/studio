@@ -54,12 +54,18 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       </div>
 
       <div className="flex items-baseline space-x-2">
-        <span className="text-3xl font-bold text-primary">
-          {formatPrice(product.price)}
-        </span>
-        {hasDiscount && (
-          <span className="text-xl text-gray-500 line-through">
-            {formatPrice(product.fullPrice)}
+        {hasDiscount ? (
+          <>
+            <span className="text-xl text-gray-500 line-through">
+              {formatPrice(product.fullPrice)}
+            </span>
+            <span className="text-3xl font-bold text-primary">
+              {formatPrice(product.price)}
+            </span>
+          </>
+        ) : (
+          <span className="text-3xl font-bold text-primary">
+            {formatPrice(product.price)}
           </span>
         )}
       </div>
