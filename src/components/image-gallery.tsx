@@ -54,7 +54,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
               alt="Imagen de marcador de posición"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-contain"
+              className="object-cover"
               priority
               data-ai-hint="placeholder"
             />
@@ -77,7 +77,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                     alt={`${title} - imagen ${index + 1}`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-contain transition-transform duration-300 ease-in-out hover:scale-105"
+                    className="object-cover transition-transform duration-300 ease-in-out hover:scale-105"
                     priority={index === 0}
                     data-ai-hint="product apparel"
                   />
@@ -106,7 +106,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                       alt={`Miniatura de ${title} ${index + 1}`}
                       fill
                       sizes="(max-width: 768px) 20vw, 10vw"
-                      className="object-contain"
+                      className="object-cover"
                       data-ai-hint="product apparel"
                   />
                   </CardContent>

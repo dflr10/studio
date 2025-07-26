@@ -45,7 +45,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
                       alt={product.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-contain"
+                      className="object-cover"
                       data-ai-hint="product fashion"
                     />
                   </div>
