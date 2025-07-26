@@ -35,6 +35,15 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
     const handleSelect = (api: CarouselApi) => {
       if (api) {
         setCurrent(api.selectedScrollSnap());
+        
+        // Add is-active class to the current slide
+        api.slideNodes().forEach((slide, index) => {
+          if (index === api.selectedScrollSnap()) {
+            slide.classList.add('is-active');
+          } else {
+            slide.classList.remove('is-active');
+          }
+        });
       }
     };
     
@@ -78,21 +87,21 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
         plugins={[plugin.current]}
         opts={{ loop: true }}
         setApi={setMainApi} 
-        className="w-full"
+        className="w-full embla-fade"
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >
         <CarouselContent>
           {images.map((img, index) => (
             <CarouselItem key={index}>
-              <Card className="overflow-hidden rounded-lg shadow-lg border h-full w-full">
+              <Card className="overflow-hidden rounded-lg shadow-lg border h-full w-full bg-transparent">
                 <CardContent className="relative aspect-square p-0 h-full w-full">
                   <Image
                     src={img}
                     alt={`${title} - imagen ${index + 1}`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-contain transition-transform duration-300 ease-in-out hover:scale-105"
+                    className="object-contain"
                     priority={index === 0}
                     data-ai-hint="product apparel"
                   />
