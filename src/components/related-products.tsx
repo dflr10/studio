@@ -72,7 +72,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
                       </div>
                     </CardItem>
                   </div>
-                  <div className="mt-8 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <CardItem
                       translateZ={20}
                       as="p"
