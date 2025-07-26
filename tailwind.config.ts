@@ -10,8 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Jost', 'sans-serif'],
-        headline: ['DM Serif Display', 'serif'],
+        body: ['Lato', 'sans-serif'],
+        headline: ['Lato', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
