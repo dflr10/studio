@@ -50,58 +50,74 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
         className="w-full"
       >
         <CarouselContent className="-ml-4">
-          {validProducts.map((product) => (
-            <CarouselItem key={product.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
-              <Link href={`/?id=${product.id}`}>
-                <CardContainer className="w-full">
-                  <CardBody className="group/card relative flex h-[28rem] w-full flex-col justify-between rounded-xl border border-black/[0.1] p-6 hover:shadow-2xl dark:border-white/[0.2] dark:bg-black dark:hover:shadow-emerald-500/[0.1]">
-                    <div>
-                      <CardItem
-                        translateZ="50"
-                        className="text-xl font-bold text-neutral-600 dark:text-white"
-                      >
-                        {truncateTitle(product.title)}
-                      </CardItem>
-                      <CardItem
-                        as="p"
-                        translateZ="60"
-                        className="mt-2 max-w-sm text-sm text-neutral-500 dark:text-neutral-300"
-                      >
-                        {product.brand}
-                      </CardItem>
-                      <CardItem translateZ="100" className="mt-4 w-full">
-                          <div className="relative aspect-square h-60 w-full rounded-xl bg-white">
-                            <Image
-                              src={product.image}
-                              alt={product.title}
-                              fill
-                              className="rounded-xl object-contain group-hover/card:shadow-xl"
-                              data-ai-hint="product fashion"
-                            />
-                          </div>
-                      </CardItem>
-                    </div>
-                    <div className="mt-8 flex items-center justify-between">
-                      <CardItem
-                        translateZ={20}
-                        as="p"
-                        className="px-4 py-2 text-xl font-normal text-primary dark:text-white"
-                      >
-                        {formatPrice(product.price)}
-                      </CardItem>
-                      <CardItem
-                        translateZ={20}
-                        as="button"
-                        className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground"
-                      >
-                        Ver producto
-                      </CardItem>
-                    </div>
-                  </CardBody>
-                </CardContainer>
-              </Link>
-            </CarouselItem>
-          ))}
+          {validProducts.map((product) => {
+            const hasDiscount = product.fullPrice && product.fullPrice > product.price;
+            return (
+              <CarouselItem key={product.id} className="basis-full pl-4 md:basis-1/2 lg:basis-1/3">
+                <Link href={`/?id=${product.id}`}>
+                  <CardContainer className="w-full">
+                    <CardBody className="group/card relative flex h-[28rem] w-full flex-col justify-between rounded-xl border border-black/[0.1] p-6 hover:shadow-2xl dark:border-white/[0.2] dark:bg-black dark:hover:shadow-emerald-500/[0.1]">
+                      <div>
+                        <CardItem
+                          translateZ="50"
+                          className="text-xl font-bold text-neutral-600 dark:text-white"
+                        >
+                          {truncateTitle(product.title)}
+                        </CardItem>
+                        <CardItem
+                          as="p"
+                          translateZ="60"
+                          className="mt-2 max-w-sm text-sm text-neutral-500 dark:text-neutral-300"
+                        >
+                          {product.brand}
+                        </CardItem>
+                        <CardItem translateZ="100" className="mt-4 w-full">
+                            <div className="relative aspect-square h-60 w-full rounded-xl bg-white">
+                              <Image
+                                src={product.image}
+                                alt={product.title}
+                                fill
+                                className="rounded-xl object-contain group-hover/card:shadow-xl"
+                                data-ai-hint="product fashion"
+                              />
+                            </div>
+                        </CardItem>
+                      </div>
+                      <div className="mt-8 flex items-center justify-between">
+                        <CardItem
+                          translateZ={20}
+                          as="div"
+                          className="flex flex-col items-start px-4 py-2"
+                        >
+                          {hasDiscount ? (
+                            <>
+                              <span className="text-sm text-gray-500 line-through">
+                                {formatPrice(product.fullPrice)}
+                              </span>
+                              <span className="text-lg font-bold text-primary">
+                                {formatPrice(product.price)}
+                              </span>
+                            </>
+                          ) : (
+                            <span className="text-lg font-bold text-primary">
+                              {formatPrice(product.price)}
+                            </span>
+                          )}
+                        </CardItem>
+                        <CardItem
+                          translateZ={20}
+                          as="button"
+                          className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground"
+                        >
+                          Ver producto
+                        </CardItem>
+                      </div>
+                    </CardBody>
+                  </CardContainer>
+                </Link>
+              </CarouselItem>
+            )
+          })}
         </CarouselContent>
         <CarouselPrevious className="left-[-1.5rem]" />
         <CarouselNext className="right-[-1.5rem]" />
