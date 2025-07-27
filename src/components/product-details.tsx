@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { Product } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -34,6 +34,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string>(product.color);
   const { addToCart } = useCart();
+
+  useEffect(() => {
+    setSelectedSize(null);
+    setSelectedColor(product.color);
+  }, [product.id, product.color]);
 
   const handleAddToCart = () => {
     if (product && selectedSize) {
@@ -76,6 +81,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           </span>
         )}
       </div>
+      
 
       <div className="flex items-center space-x-4">
         <Badge variant="outline">SKU: {product.sku}</Badge>
@@ -104,7 +110,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       </div>
 
       <div>
-        <h3 className="text-sm font-medium">Tallas Disponibles</h3>
+        <h3 className="text-sm font-medium">Seleccionar Talla</h3>
         <RadioGroup
           value={selectedSize ?? ''}
           onValueChange={setSelectedSize}
@@ -114,7 +120,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             product.sizes.filter(Boolean).map((size) => (
             <Label
               key={size}
-              htmlFor={`size-${size}`}
+              htmlFor={`size-${size}-${product.id}`}
               className={cn(
                 'flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border p-3 text-sm font-medium transition-all duration-200 ease-in-out',
                 'shadow-md hover:shadow-xl hover:-translate-y-1',
@@ -123,7 +129,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                   : 'bg-card text-card-foreground'
               )}
             >
-              <RadioGroupItem value={size} id={`size-${size}`} className="sr-only" />
+              <RadioGroupItem value={size} id={`size-${size}-${product.id}`} className="sr-only" />
               {size}
             </Label>
           ))}
