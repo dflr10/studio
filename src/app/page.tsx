@@ -3,10 +3,11 @@ import type { Product } from '@/lib/types';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal } from 'lucide-react';
 
-async function getProductData(): Promise<Product | null> {
+async function getProductData(productId?: string): Promise<Product | null> {
+  const id = productId || '125829257';
   try {
     const res = await fetch(
-      'https://api-frontend-production.up.railway.app/api/products/125829257'
+      `https://api-frontend-production.up.railway.app/api/products/${id}`
     );
     if (!res.ok) {
       console.error(`Failed to fetch product: ${res.status} ${res.statusText}`);
@@ -29,7 +30,7 @@ async function getProductData(): Promise<Product | null> {
     const sizes = Array.from(new Set(product.items.map((item: any) => item.Talla?.[0]).filter(Boolean)));
 
     return {
-      id: product.productId,
+      id: String(product.productId),
       sku: firstItem.itemId || '',
       title: product.productName || 'Sin título',
       brand: product.brand || 'Marca Desconocida',
@@ -64,41 +65,55 @@ async function getRelatedProducts(): Promise<Product[]> {
       return [];
     }
 
-    return (data || []).map((product: any) => {
-      if (!product || !product.productId) return null;
+    const allProducts = data
+      .filter(Boolean) 
+      .map((product: any): Product | null => {
+        if (!product || typeof product.productId === 'undefined' || !product.items || product.items.length === 0) {
+          return null;
+        }
+        
+        const firstItem = product.items[0];
+        if (!firstItem) return null;
 
-      const firstItem = product.items?.[0];
-      if (!firstItem) return null;
+        const imageUrl = firstItem.images?.[0]?.imageUrl;
+        const availableColors = Array.from(new Set(product.items.map((item: any) => item.Color?.[0]).filter(Boolean)));
+        const sizes = Array.from(new Set(product.items.map((item: any) => item.Talla?.[0]).filter(Boolean)));
+        
+        return {
+          id: String(product.productId),
+          sku: firstItem.itemId || '',
+          title: product.productName || 'Sin título',
+          brand: product.brand || 'Marca Desconocida',
+          image: imageUrl || "https://placehold.co/400x400.png",
+          images: firstItem.images?.map((img: any) => img.imageUrl).filter(Boolean) || [],
+          price: firstItem.sellers?.[0]?.commertialOffer?.Price || 0,
+          fullPrice: firstItem.sellers?.[0]?.commertialOffer?.ListPrice || 0,
+          color: firstItem.Color?.[0] || 'No especificado',
+          availableColors,
+          sizes,
+          details: product.description || '<p>No hay detalles disponibles.</p>',
+          stock: firstItem.sellers?.[0]?.commertialOffer?.AvailableQuantity || 0,
+        };
+      })
+      .filter((p): p is Product => p !== null);
 
-      const imageUrl = firstItem.images?.[0]?.imageUrl;
-      const availableColors = Array.from(new Set(product.items.map((item: any) => item.Color?.[0]).filter(Boolean)));
-      const sizes = Array.from(new Set(product.items.map((item: any) => item.Talla?.[0]).filter(Boolean)));
-      
-      return {
-        id: product.productId,
-        sku: firstItem.itemId || '',
-        title: product.productName || 'Sin título',
-        brand: product.brand || 'Marca Desconocida',
-        image: imageUrl || "https://placehold.co/400x400.png",
-        images: firstItem.images?.map((img: any) => img.imageUrl).filter(Boolean) || [],
-        price: firstItem.sellers?.[0]?.commertialOffer?.Price || 0,
-        fullPrice: firstItem.sellers?.[0]?.commertialOffer?.ListPrice || 0,
-        color: firstItem.Color?.[0] || 'No especificado',
-        availableColors,
-        sizes,
-        details: product.description || '<p>No hay detalles disponibles.</p>',
-        stock: firstItem.sellers?.[0]?.commertialOffer?.AvailableQuantity || 0,
-      };
-    }).filter((p): p is Product => p !== null);
+      return allProducts;
+
   } catch (error) {
     console.error('An error occurred while fetching related products:', error);
     return [];
   }
 }
 
-export default async function Home() {
+interface HomeProps {
+  searchParams: {
+    id?: string;
+  };
+}
+
+export default async function Home({ searchParams }: HomeProps) {
   const [product, relatedProducts] = await Promise.all([
-    getProductData(),
+    getProductData(searchParams.id),
     getRelatedProducts(),
   ]);
 
@@ -116,7 +131,11 @@ export default async function Home() {
     );
   }
 
+  const filteredRelatedProducts = product.id 
+    ? relatedProducts.filter(p => p.id !== product.id)
+    : relatedProducts;
+
   return (
-    <ProductClientPage product={product} relatedProducts={relatedProducts} />
+    <ProductClientPage product={product} relatedProducts={filteredRelatedProducts} />
   );
 }
