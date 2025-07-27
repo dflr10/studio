@@ -22,11 +22,11 @@ interface ProductDetailsProps {
 
 const colorMap: { [key: string]: string } = {
   Negro: 'black',
-  'Verde Limon': 'limegreen',
+  'Verde Limon': '#CFFB00 ',
   Blanco: 'white',
-  Miel: '#E6B422',
+  Miel: '#8C5D30 ',
   Multicolor: 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)',
-  Mora: '#781F1F',
+  Mora: '#5F3D55 ',
   Crema: '#F5F5DC',
 };
 
