@@ -1,51 +1,24 @@
+
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import type { Product } from '@/lib/types';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
-import { ShoppingCart } from 'lucide-react';
-import { useCart } from '@/hooks/use-cart';
-import { cn } from '@/lib/utils';
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import { CardBody, CardContainer, CardItem } from './ui/3d-card';
 
-interface ProductDetailsProps {
-  product: Product;
+interface RelatedProductsProps {
+  products: Product[];
 }
 
-const colorMap: { [key: string]: string } = {
-  Negro: 'black',
-  'Verde Limon': '#CFFB00 ',
-  Blanco: 'white',
-  Miel: '#8C5D30 ',
-  Multicolor: 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)',
-  Mora: '#5F3D55 ',
-  Crema: '#F5F5DC',
-};
-
-export default function ProductDetails({ product }: ProductDetailsProps) {
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
-  const [selectedColor, setSelectedColor] = useState<string>(product.color);
-  const { addToCart } = useCart();
-
-  useEffect(() => {
-    setSelectedSize(null);
-    setSelectedColor(product.color);
-  }, [product.id, product.color]);
-
-  const handleAddToCart = () => {
-    if (product && selectedSize) {
-      addToCart(product, selectedSize);
-    }
-  };
-
+export default function RelatedProducts({ products }: RelatedProductsProps) {
   const formatPrice = (price: number) =>
     new Intl.NumberFormat('es-CO', {
       style: 'currency',
@@ -54,109 +27,101 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       maximumFractionDigits: 0,
     }).format(price);
   
-  const hasDiscount = product.fullPrice && product.fullPrice > product.price;
+  const truncateTitle = (title: string) => {
+    if (title.length > 29) {
+      return title.substring(0, 29) + '...';
+    }
+    return title;
+  };
+
+  const validProducts = products.filter(p => p && p.id);
+
+  if (!validProducts.length) {
+    return null;
+  }
 
   return (
-    <div className="flex flex-col space-y-6">
-      <div>
-        <p className="text-sm text-muted-foreground">{product.brand}</p>
-        <h1 className="font-headline text-3xl font-bold tracking-tight md:text-4xl">
-          {product.title}
-        </h1>
-      </div>
-
-      <div className="flex items-baseline space-x-2">
-        {hasDiscount ? (
-          <>
-            <span className="text-xl text-gray-500 line-through">
-              {formatPrice(product.fullPrice)}
-            </span>
-            <span className="text-3xl font-bold text-primary">
-              {formatPrice(product.price)}
-            </span>
-          </>
-        ) : (
-          <span className="text-3xl font-bold text-primary">
-            {formatPrice(product.price)}
-          </span>
-        )}
-      </div>
-      
-
-      <div className="flex items-center space-x-4">
-        <Badge variant="outline">SKU: {product.sku}</Badge>
-      </div>
-
-      <div>
-        <h3 className="text-sm font-medium">Color: <span className="font-normal">{selectedColor}</span></h3>
-        <div className="mt-2 flex flex-wrap gap-3">
-          {product.availableColors?.map((color) => (
-            <button
-              key={color}
-              type="button"
-              className={cn(
-                'h-10 w-10 rounded-full border-2 transition-all duration-200 ease-in-out transform hover:scale-110',
-                selectedColor === color ? 'ring-2 ring-primary ring-offset-2 border-primary' : 'border-gray-300',
-                color === 'Blanco' && 'border-gray-400'
-              )}
-              style={{
-                background: colorMap[color] || color.toLowerCase(),
-              }}
-              onClick={() => setSelectedColor(color)}
-              aria-label={`Seleccionar color ${color}`}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-sm font-medium">Seleccionar Talla</h3>
-        <RadioGroup
-          value={selectedSize ?? ''}
-          onValueChange={setSelectedSize}
-          className="mt-2 flex flex-wrap gap-2"
-        >
-          {Array.isArray(product.sizes) &&
-            product.sizes.filter(Boolean).map((size) => (
-            <Label
-              key={size}
-              htmlFor={`size-${size}-${product.id}`}
-              className={cn(
-                'flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border p-3 text-sm font-medium transition-all duration-200 ease-in-out',
-                'shadow-md hover:shadow-xl hover:-translate-y-1',
-                selectedSize === size
-                  ? 'border-primary bg-primary text-primary-foreground shadow-lg scale-105'
-                  : 'bg-card text-card-foreground'
-              )}
-            >
-              <RadioGroupItem value={size} id={`size-${size}-${product.id}`} className="sr-only" />
-              {size}
-            </Label>
-          ))}
-        </RadioGroup>
-      </div>
-
-      <Button
-        size="lg"
-        onClick={handleAddToCart}
-        disabled={!selectedSize}
-        className="w-full shadow-lg transform hover:scale-105 transition-transform"
+    <section>
+      <h2 className="font-headline text-2xl font-bold tracking-tight md:text-3xl">
+        También te podría gustar
+      </h2>
+      <Carousel
+        opts={{ align: 'start', loop: true }}
+        className="w-full"
       >
-        <ShoppingCart className="mr-2 h-5 w-5" />
-        {selectedSize ? 'Añadir al carrito' : 'Selecciona una talla'}
-      </Button>
-      
-      <Accordion type="single" collapsible className="w-full">
-        <AccordionItem value="item-1">
-          <AccordionTrigger>Detalles del Producto</AccordionTrigger>
-          <AccordionContent>
-            <div 
-              className="prose prose-sm max-w-none text-muted-foreground"
-              dangerouslySetInnerHTML={{ __html: product.details }}
-            ></div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </div>
+        <CarouselContent className="-ml-4">
+          {validProducts.map((product) => {
+            const hasDiscount = product.fullPrice && product.fullPrice > product.price;
+            return (
+              <CarouselItem key={product.id} className="basis-full pl-4 md:basis-1/2 lg:basis-1/3">
+                <Link href={`/?id=${product.id}`}>
+                  <CardContainer className="w-full">
+                    <CardBody className="group/card relative flex h-[28rem] w-full flex-col justify-between rounded-xl border border-black/[0.1] p-6 hover:shadow-2xl dark:border-white/[0.2] dark:bg-black dark:hover:shadow-emerald-500/[0.1]">
+                      <div>
+                        <CardItem
+                          translateZ="50"
+                          className="text-xl font-bold text-neutral-600 dark:text-white"
+                        >
+                          {truncateTitle(product.title)}
+                        </CardItem>
+                        <CardItem
+                          as="p"
+                          translateZ="60"
+                          className="mt-2 max-w-sm text-sm text-neutral-500 dark:text-neutral-300"
+                        >
+                          {product.brand}
+                        </CardItem>
+                        <CardItem translateZ="100" className="mt-4 w-full">
+                            <div className="relative aspect-square h-60 w-full rounded-xl bg-white">
+                              <Image
+                                src={product.image}
+                                alt={product.title}
+                                fill
+                                className="rounded-xl object-contain group-hover/card:shadow-xl"
+                                data-ai-hint="product fashion"
+                              />
+                            </div>
+                        </CardItem>
+                      </div>
+                      <div className="mt-8 flex items-center justify-between">
+                        <CardItem
+                          translateZ={20}
+                          as="div"
+                          className="flex flex-col items-start px-4 py-2"
+                        >
+                          {hasDiscount ? (
+                            <>
+                              <span className="text-sm text-gray-500 line-through">
+                                {formatPrice(product.fullPrice)}
+                              </span>
+                              <span className="text-lg font-bold text-primary">
+                                {formatPrice(product.price)}
+                              </span>
+                            </>
+                          ) : (
+                            <span className="text-lg font-bold text-primary">
+                              {formatPrice(product.price)}
+                            </span>
+                          )}
+                        </CardItem>
+                        <CardItem
+                          translateZ={20}
+                          as="button"
+                          className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground"
+                        >
+                          Ver producto
+                        </CardItem>
+                      </div>
+                    </CardBody>
+                  </CardContainer>
+                </Link>
+              </CarouselItem>
+            )
+          })}
+        </CarouselContent>
+        <CarouselPrevious className="left-[-1.5rem]" />
+        <CarouselNext className="right-[-1.5rem]" />
+      </Carousel>
+    </section>
   );
 }
